@@ -32,6 +32,19 @@ services:
     networks:
       - voice_net
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      app:
+        condition: service_started
+    networks:
+      - voice_net
+
 networks:
   voice_net:
     driver: bridge
