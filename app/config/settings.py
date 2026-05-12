@@ -23,10 +23,10 @@ class Settings(BaseSettings):
     max_concurrent_calls_per_user: int = Field(2, alias="MAX_CONCURRENT_CALLS_PER_USER")
 
     # AI services
-    google_api_key: str = Field(..., alias="GOOGLE_API_KEY")
+    google_api_key: str | None = Field(None, alias="GOOGLE_API_KEY")
     deepgram_api_key: str = Field(..., alias="DEEPGRAM_API_KEY")
     cartesia_api_key: str = Field(..., alias="CARTESIA_API_KEY")
-    openai_api_key: str = Field(..., alias="OPENAI_API_KEY")
+    openai_api_key: str | None = Field(None, alias="OPENAI_API_KEY")
     groq_api_key: str = Field(..., alias="GROQ_API_KEY")
 
     # Model config

@@ -6,17 +6,17 @@ Built for the ADIIVA Backend AI Engineer assignment.
 
 Tech Stack
 
-| Component      | Service                 |
-| -------------- | ----------------------- |
-| Backend        | FastAPI                 |
-| Voice Pipeline | Pipecat                 |
-| STT            | Deepgram                |
-| LLM            | Google Gemini 2.0 Flash |
-| TTS            | Cartesia                |
-| Auth           | JWT                     |
-| Rate Limiting  | Redis                   |
-| Metrics        | Prometheus              |
-| Logging        | Structlog               |
+| Component      | Service                                      |
+| -------------- | -------------------------------------------- |
+| Backend        | FastAPI                                      |
+| Voice Pipeline | Pipecat                                      |
+| STT            | Deepgram                                     |
+| LLM            | Groq (OpenAI-compatible)                     |
+| TTS            | Cartesia                                     |
+| Auth           | JWT                                          |
+| Rate Limiting  | Redis                                        |
+| Metrics        | Prometheus                                   |
+| Logging        | Structlog                                    |
 
 ## Features
 
@@ -46,6 +46,14 @@ cp .env.example .env
 docker compose up --build
 ```
  
+## API Provider
+
+This project is configured to work with the **Groq API only** for LLM inference.
+
+> Gemini and OpenAI were previously used during development, but their credits were exhausted, so the current deployment uses only Groq.
+
+Make sure `GROQ_API_KEY` is set in your `.env` file before starting the project.
+
 | Service | URL |
 |---------|-----|
 | Frontend | http://localhost |

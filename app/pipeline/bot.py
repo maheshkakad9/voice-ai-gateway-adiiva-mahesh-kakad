@@ -3,7 +3,7 @@
 Stack:
   Transport : FastAPIWebsocketTransport
   STT       : DeepgramSTTService
-  LLM       : GoogleLLMService (Gemini 2.0 Flash)
+  LLM       : Groq via OpenAI-compatible endpoint
   TTS       : CartesiaTTSService
   Tool      : play_audio  (FunctionSchema + register_direct_function)
 
