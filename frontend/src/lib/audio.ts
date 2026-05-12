@@ -130,8 +130,8 @@ export class AudioPlayer {
   private nextTime = 0;
   private sources: AudioBufferSourceNode[] = [];
   private callbacks: AudioPlayerCallbacks;
-  private decoding = false; // simple guard against overlapping decodes
-  private queue: ArrayBuffer[] = [];
+
+
 
   constructor(callbacks?: AudioPlayerCallbacks) {
     this.context = new AudioContext();
@@ -241,7 +241,7 @@ export class AudioPlayer {
     });
     this.sources = [];
     this.nextTime = 0;
-    this.queue = [];
+
 
     if (this.context) {
       this.context.close();
