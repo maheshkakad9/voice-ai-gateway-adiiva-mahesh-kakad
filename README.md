@@ -32,40 +32,28 @@ Tech Stack
 - Supports concurrent users without blocking FastAPI event loop
 
 ## Quick Start
-
-## Backend Setup
+ 
 ```bash
-1. Clone the repository
-
+# 1. Clone the repository
 git clone https://github.com/maheshkakad9/voice-ai-gateway-adiiva-mahesh-kakad.git
 cd voice-ai-gateway
-
-2. Configure environment variables
+ 
+# 2. Configure environment variables
 cp .env.example .env
-# Edit .env — add GOOGLE_API_KEY, DEEPGRAM_API_KEY, CARTESIA_API_KEY, JWT_SECRET_KEY
-
-3. Run with Docker
+# Edit .env — add GROQ_API_KEY, DEEPGRAM_API_KEY, CARTESIA_API_KEY, JWT_SECRET_KEY
+ 
+# 3. Start everything with one command
 docker compose up --build
 ```
-
-Service starts at **http://localhost:8000**.
-
----
-
-## Frontend Setup
-If frontend dependencies are not installed:
-``` bash
-cd frontend
-npm install
-```
-
-Run frontend:
-``` bash
-npm run dev
-```
-
-Frontend will run on:
-`http://localhost:5173`
+ 
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost |
+| Backend API | http://localhost:8000 |
+| Metrics | http://localhost:8000/metrics |
+| Health | http://localhost:8000/health |
+ 
+> **No separate frontend setup required.** The React app is built inside Docker and served via nginx on port 80
 
 ## Authentication
 
