@@ -358,4 +358,5 @@ The demo video should include:
 ## Demo Video
 
 ```text
-[I will upload the demo video link soon]
+Link -> 
+[[Demo Video Link:](https://drive.google.com/file/d/1G6Duz-wN7q1jSXSwAKW2MlwiwmG4SCjk/view)]
