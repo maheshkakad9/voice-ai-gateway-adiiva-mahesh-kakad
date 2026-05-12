@@ -161,60 +161,52 @@ curl -s http://localhost:8000/metrics | grep vgw_
 
 ## Architecture
 
-Client (Browser / Frontend App)
-   │
-   │  ws://host/ws/talk?token=<jwt>
-   │
-   │  Binary PCM Audio  ↑
-   │  WAV Audio + JSON  ↓
-   ▼
-
-FastAPI Gateway
-(/token  /ws/talk  /metrics  /health  /sessions)
-   │
-   ├── JWT Authentication
-   │     └── python-jose (HS256 validation)
-   │
-   ├── Redis Rate Limiter
-   │     └── Atomic Lua scripts for concurrency control
-   │
-   ├── SessionManager
-   │     └── Maps WebSocket connections → PipelineTask
-   │
-   └── asyncio.Task per active session
-          │
-          └── Pipecat Pipeline
-                 │
-                 ├── FastAPIWebsocketTransport.input()
-                 │       └── Receives streaming PCM audio
-                 │
-                 ├── DeepgramSTTService
-                 │       └── Speech → Text transcription
-                 │
-                 ├── Context Aggregator (User)
-                 │       └── Maintains conversation context
-                 │
-                 ├── GroqLLMService
-                 │       └── Groq LLM inference
-                 │       └── Tool calling support
-                 │       └── Low-latency token streaming
-                 │
-                 ├── play_audio Tool
-                 │       └── Sends immediate binary frames
-                 │
-                 ├── CartesiaTTSService
-                 │       └── Text → Speech audio generation
-                 │
-                 ├── FastAPIWebsocketTransport.output()
-                 │       └── Streams TTS audio to client
-                 │
-                 └── Context Aggregator (Assistant)
-                         └── Stores assistant responses
+```
+Client (Browser)
+  │  ws://host/ws/talk?token=<jwt>
+  │  Binary PCM Audio ↑   WAV Audio + JSON Events ↓
+  ▼
+FastAPI  (/token  /ws/talk  /metrics  /health  /sessions)
+  │
+  ├── JWT Authentication
+  │     └── python-jose HS256 validation (~0.1 ms)
+  │
+  ├── Redis Rate Limiter
+  │     └── Atomic Lua scripts for concurrency control (~1 ms)
+  │
+  └── SessionManager
+        └── asyncio.Task per active session
+              └── Pipecat Pipeline
+                    ├── FastAPIWebsocketTransport.input()
+                    │     └── Receives streaming PCM audio
+                    │
+                    ├── DeepgramSTTService
+                    │     └── Speech → Text transcription
+                    │
+                    ├── Context Aggregator (User)
+                    │     └── Maintains conversation context
+                    │
+                    ├── GroqLLMService
+                    │     ├── Groq LLM inference
+                    │     ├── Tool calling support
+                    │     ├── Low-latency token streaming
+                    │     └── play_audio Tool
+                    │           └── Sends immediate binary frames
+                    │
+                    ├── CartesiaTTSService
+                    │     └── Text → Speech audio generation
+                    │
+                    ├── FastAPIWebsocketTransport.output()
+                    │     └── Streams TTS audio to client
+                    │
+                    └── Context Aggregator (Assistant)
+                          └── Stores assistant responses
+```
 
 The architecture is designed for low-latency real-time voice conversations.
 FastAPI handles WebSocket communication and session orchestration, while
-Pipecat manages the streaming AI pipeline for STT, LLM inference, tool execution,
-and TTS generation.
+Pipecat manages the streaming AI pipeline for STT, LLM inference, tool
+execution, and TTS generation.
 
 
 
